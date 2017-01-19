@@ -1,4 +1,4 @@
-﻿
+﻿@model PartyInvites.Models.IndexModel
 @{
     Layout = null;
 }
@@ -18,9 +18,10 @@
 </head>
 <body>
     <div class="text-center"> 
-        <h3>@ViewBag.Greeting World</h3>
+        <h3>@Model.Greeting World</h3>
         <h2>
             We're going to have a party!
+            It is @Model.CurrentTime.ToShortTimeString()! The party is in @Model.TimeUntilTheParty hours!
         </h2>
         <h3>And you are invited</h3>
         <div class="btn btn-success"></div>

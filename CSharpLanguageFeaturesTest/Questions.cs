@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -66,7 +67,36 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static List<string> Question2(List<string> input)
         {
-            throw new NotImplementedException();
+
+            Dictionary<string, int> numA = new Dictionary<string, int>();
+
+            foreach (string value in input)
+            {
+                var chararray = value.ToLower().ToCharArray();
+                if (chararray.Length > 0)
+                {
+                    Boolean foundA = false;
+                    var g = chararray.GroupBy(i => i);
+                    foreach (var grp in g)
+                    {
+                        if (grp.Key == 'a')
+                        {
+                            numA.Add(value, grp.Count());
+                            foundA = true;
+                        }
+                        
+                       
+                    }
+                    if (!foundA)
+                    {
+                        numA.Add(value, 0);
+                    }
+                    foundA = false;
+                }
+            }
+
+            List<string> ordered = numA.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value).Keys.ToList();
+            return ordered;
         }
 
         /// <summary>
@@ -132,7 +162,32 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static DateTime? Question5(DateTime d1, DateTime d2)
         {
-            throw new NotImplementedException();
+
+            DateTime d2sameYear= new DateTime(d1.Year, d2.Month,d2.Day,d2.Hour, d2.Minute, d2.Second );
+            int comp= DateTime.Compare(d1, d2sameYear);
+            DateTime later;
+            if (comp <= 0)
+            {
+                later = d2;
+            }
+            else
+            {
+                later = d1;
+            }
+            try
+            {
+                DateTime date = later.AddDays(1).Date;
+                TimeSpan time = new TimeSpan(15,0,0);
+                DateTime newday = date + time;
+                return newday;
+            }
+            catch
+            {
+                return null;
+            }
+
+
+            
         }
 
         /// <summary>
@@ -143,7 +198,11 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static double Question6(int i1, int i2)
         {
-            throw new NotImplementedException();
+            double d1 = Math.Abs(i1);
+            double pow = (1d / 3d);
+            double root = Math.Pow(d1, pow);
+            double power = Math.Pow(root, i2);
+            return power;
         }
 
         /// <summary>
@@ -154,7 +213,32 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static int Question7(List<int> ints)
         {
-            throw new NotImplementedException();
+
+            int largestodd = ints[0];
+            Boolean foundOdd = false;
+
+            foreach (var val in ints)
+            {
+                if (Math.Abs(val) % 2 == 1)
+                {
+                    foundOdd = true;
+
+                    if (val > largestodd)
+                    {
+                        largestodd = val;
+                    }
+                } 
+            }
+
+            if (foundOdd)
+            {
+                return largestodd;
+            }
+            else
+            {
+                return Int32.MinValue;
+            }
+           
         }
 
         /// <summary>
@@ -177,3 +261,4 @@ namespace CSharpLanguageFeaturesTest
 
 //Math.Abs()
 }
+

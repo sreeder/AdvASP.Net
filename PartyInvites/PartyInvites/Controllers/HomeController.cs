@@ -11,11 +11,18 @@ namespace PartyInvites.Controllers
         // GET: Home
         public ViewResult Index()
         {
-            int hour = DateTime.Now.Hour;
-            ViewBag.Greeting = hour < 12 ? "Good Morning" : "Good Afternoon";
+            //object initializer use this to make sure that all objects are fully initialized
+
+            var vm = new IndexModel
+            {
+                CurrentTime = DateTime.Now,
+                Greeting = DateTime.Now.Hour < 12 ? "Good Morning" : "Good Afternoon"
+            };
+        
+
             return View();
         }
-        
+
         [HttpGet]
         public ViewResult RsvpForm()
         {

@@ -31,13 +31,14 @@ namespace CSharpLanguageFeaturesTest
         {
             var tests = new List<Tuple<List<string>, List<string>>>
             {
-                new Tuple<List<string>, List<string>>(
-                    new List<string> {"aAA", "AA", "a"},
-                    new List<string> {"a", "AA", "aAA"}
-                    ),
+                
                 new Tuple<List<string>, List<string>>(
                     new List<string> {"cat", "dog", "AnimAl"},
                     new List<string> {"dog", "cat", "animal"}
+                    ),
+                new Tuple<List<string>, List<string>>(
+                    new List<string> {"aAA", "AA", "a"},
+                    new List<string> {"a", "AA", "aAA"}
                     ),
                 new Tuple<List<string>, List<string>>(
                     new List<string> {"a a a ab a a a a", "aaaaba", "a", "b"},
