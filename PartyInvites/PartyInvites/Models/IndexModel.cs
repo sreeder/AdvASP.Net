@@ -14,7 +14,7 @@ namespace PartyInvites.Models
         {
             get
             {
-                var timespan = (new DateTime(2017, 1, 21, 20, 0, 0) - CurrentTime);
+                var timespan = (new DateTime(2017, 1,17, 20, 0, 0) - CurrentTime);
                 return (int)Math.Round(timespan.TotalHours);
             }
         }

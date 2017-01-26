@@ -20,7 +20,7 @@ namespace PartyInvites.Controllers
             };
         
 
-            return View();
+            return View(vm);
         }
 
         [HttpGet]
