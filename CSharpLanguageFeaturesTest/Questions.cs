@@ -198,11 +198,11 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static double Question6(int i1, int i2)
         {
-            double d1 = Math.Abs(i1);
-            double pow = (1d / 3d);
-            double root = Math.Pow(d1, pow);
-            double power = Math.Pow(root, i2);
-            return power;
+            //double d1 = Math.Abs(i1);
+            //double pow = (1d / 3d);
+            //double root = Math.Pow(Math.Abs(i1), (1d / 3d));
+            return Math.Pow(Math.Pow(Math.Abs(i1), (1d / 3d)), i2);
+            
         }
 
         /// <summary>
@@ -255,10 +255,27 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static List<List<string>> Question8(List<string> words)
         {
-            throw new NotImplementedException();
+            List<List<string>> anagrams = new List<List<string>>();
+            foreach (var word in words)
+            {
+                char[] w = word.ToLower().ToCharArray();
+                char[] rev = w.Reverse().ToArray();
+                
+                if (w==rev)
+                    break;
+
+                foreach (var match in words)
+                {
+                    if (rev == match.ToLower().ToCharArray())
+                    {
+                        anagrams.Add(new List<string> { word, match});
+                    }
+                }
+            }
+            
+            return anagrams;
         }
     }
 
-//Math.Abs()
 }
 
