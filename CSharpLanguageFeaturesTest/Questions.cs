@@ -1,7 +1,9 @@
 ﻿using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 
 namespace CSharpLanguageFeaturesTest
@@ -27,35 +29,20 @@ namespace CSharpLanguageFeaturesTest
         public static string Question1(string input)
         {
 
-            var listOfStrings = new List<string>();
-            listOfStrings = input.Split(' ').ToList();
+            var listOfStrings = input.Split(' ').ToList();
 
             var formattedString = new List<string>();
             foreach (var word in listOfStrings)
-            {
-
                 formattedString.Add(word.ToTitleCase());
-            }
-
             return String.Join(" ", formattedString);
-
-            //return (String.Join(" ", input.Split(' ').ToList().Select(s=>s.ToTitleCase()));
-
         }
 
         public static string ToTitleCase(this string s)
         {
-            var curstring = s.ToLower();
-
-            var charArray = curstring.ToCharArray();
+            var charArray = s.ToLower().ToCharArray();
             if (charArray.Length > 0)
-            {
                 charArray[0] = Char.ToUpper(charArray[0]);
-            }
-            curstring = new string(charArray);
-
-
-            return curstring;
+            return new string(charArray);
         }
 
 
@@ -67,7 +54,6 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static List<string> Question2(List<string> input)
         {
-
             Dictionary<string, int> numA = new Dictionary<string, int>();
 
             foreach (string value in input)
@@ -84,18 +70,17 @@ namespace CSharpLanguageFeaturesTest
                             numA.Add(value, grp.Count());
                             foundA = true;
                         }
-                        
-                       
                     }
                     if (!foundA)
-                    {
                         numA.Add(value, 0);
-                    }
                     foundA = false;
                 }
             }
 
-            List<string> ordered = numA.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value).Keys.ToList();
+            List<string> ordered =
+                numA.OrderByDescending(pair => pair.Value)
+                    .ToDictionary(pair => pair.Key, pair => pair.Value)
+                    .Keys.ToList();
             return ordered;
         }
 
@@ -111,7 +96,6 @@ namespace CSharpLanguageFeaturesTest
         public static object Question3()
         {
             return new MyNewClass();
-          
         }
 
 
@@ -121,9 +105,8 @@ namespace CSharpLanguageFeaturesTest
             public int First { get; set; }
             public string Second { get; set; }
             public string Third { get; private set; }
-
-
         }
+
         /// <summary>
         /// CLASSES & INHERITANCE
         /// 
@@ -144,8 +127,8 @@ namespace CSharpLanguageFeaturesTest
             public YourClass()
             {
                 First = 7;
-
             }
+
             public int GetFirstPlusParam(int i)
             {
                 return First + i;
@@ -162,22 +145,17 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static DateTime? Question5(DateTime d1, DateTime d2)
         {
-
-            DateTime d2sameYear= new DateTime(d1.Year, d2.Month,d2.Day,d2.Hour, d2.Minute, d2.Second );
-            int comp= DateTime.Compare(d1, d2sameYear);
+            DateTime d2sameYear = new DateTime(d1.Year, d2.Month, d2.Day, d2.Hour, d2.Minute, d2.Second);
+            int comp = DateTime.Compare(d1, d2sameYear);
             DateTime later;
             if (comp <= 0)
-            {
                 later = d2;
-            }
             else
-            {
                 later = d1;
-            }
             try
             {
                 DateTime date = later.AddDays(1).Date;
-                TimeSpan time = new TimeSpan(15,0,0);
+                TimeSpan time = new TimeSpan(15, 0, 0);
                 DateTime newday = date + time;
                 return newday;
             }
@@ -186,8 +164,6 @@ namespace CSharpLanguageFeaturesTest
                 return null;
             }
 
-
-            
         }
 
         /// <summary>
@@ -198,11 +174,7 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static double Question6(int i1, int i2)
         {
-            //double d1 = Math.Abs(i1);
-            //double pow = (1d / 3d);
-            //double root = Math.Pow(Math.Abs(i1), (1d / 3d));
             return Math.Pow(Math.Pow(Math.Abs(i1), (1d / 3d)), i2);
-            
         }
 
         /// <summary>
@@ -213,7 +185,6 @@ namespace CSharpLanguageFeaturesTest
         /// </summary>
         public static int Question7(List<int> ints)
         {
-
             int largestodd = ints[0];
             Boolean foundOdd = false;
 
@@ -222,23 +193,15 @@ namespace CSharpLanguageFeaturesTest
                 if (Math.Abs(val) % 2 == 1)
                 {
                     foundOdd = true;
-
                     if (val > largestodd)
-                    {
                         largestodd = val;
-                    }
-                } 
+                }
             }
 
             if (foundOdd)
-            {
                 return largestodd;
-            }
             else
-            {
                 return Int32.MinValue;
-            }
-           
         }
 
         /// <summary>
@@ -258,24 +221,49 @@ namespace CSharpLanguageFeaturesTest
             List<List<string>> anagrams = new List<List<string>>();
             foreach (var word in words)
             {
-                char[] w = word.ToLower().ToCharArray();
-                char[] rev = w.Reverse().ToArray();
-                
-                if (w==rev)
-                    break;
-
-                foreach (var match in words)
+                if (anagrams.Count == 0)
                 {
-                    if (rev == match.ToLower().ToCharArray())
-                    {
-                        anagrams.Add(new List<string> { word, match});
-                    }
+                    anagrams.Add(new List<string> { "primer" });
                 }
+                foreach (var a in anagrams)
+                {
+                    if (AreAnagram(word, a[0]))
+                        a.Add(word);
+                    else anagrams.Add(new List<string>{word});
+
+                }
+
             }
-            
+            foreach (var a in anagrams)
+            {
+                if (a.Count == 1)
+                    anagrams.Remove(a);
+            }
             return anagrams;
         }
-    }
 
+        public static bool AreAnagram(string word, string match)
+        {
+            if (word == match)
+                return false;
+            if (word.Length != match.Length)
+                return false;
+            char[] char1 = word.ToLower().ToCharArray();
+            char[] char2 = match.ToLower().ToCharArray();
+
+            //Step 2  
+            Array.Sort(char1);
+            Array.Sort(char2);
+
+            //Step 3  
+            string NewWord1 = new string(char1);
+            string NewWord2 = new string(char2);
+            if (NewWord1 == NewWord2)
+                return true;
+            else
+                return false;
+
+        }
+    }
 }
 
