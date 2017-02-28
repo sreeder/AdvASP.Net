@@ -98,8 +98,6 @@ namespace CSharpLanguageFeaturesTest
             return new MyNewClass();
         }
 
-
-
         public class MyNewClass
         {
             public int First { get; set; }
@@ -163,7 +161,6 @@ namespace CSharpLanguageFeaturesTest
             {
                 return null;
             }
-
         }
 
         /// <summary>
@@ -223,16 +220,14 @@ namespace CSharpLanguageFeaturesTest
             {
                 if (anagrams.Count == 0)
                 {
-                    anagrams.Add(new List<string> { "primer" });
+                    anagrams.Add(new List<string> {"primer"});
                 }
                 foreach (var a in anagrams)
                 {
                     if (AreAnagram(word, a[0]))
                         a.Add(word);
                     else anagrams.Add(new List<string>{word});
-
                 }
-
             }
             foreach (var a in anagrams)
             {
@@ -256,13 +251,12 @@ namespace CSharpLanguageFeaturesTest
             Array.Sort(char2);
 
             //Step 3  
-            string NewWord1 = new string(char1);
-            string NewWord2 = new string(char2);
-            if (NewWord1 == NewWord2)
+            string newWord1 = new string(char1);
+            string newWord2 = new string(char2);
+            if (newWord1 == newWord2)
                 return true;
             else
                 return false;
-
         }
     }
 }
