@@ -9,6 +9,6 @@ namespace Domain.Abstract
 
         void SaveProduct(Product product);
 
-        void DeleteProduct(Product product);
+        Product DeleteProduct(int productID);
     }
 }
