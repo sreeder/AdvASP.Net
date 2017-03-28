@@ -14,14 +14,36 @@
         <strong>@Model.Name</strong>
         <span class="pull-right label label-primary">@Model.Price.ToString("c")</span>
     </h3>
-    @using (Html.BeginForm("AddToCart", "Cart"))
-    {
+    <form action="/" method="post">
         <div class="pull-right">
             @Html.HiddenFor(x => x.ProductID)
             @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
-            <input type="submit" class="btn btn-success" value="Add to cart"/>
-
-        </div>
-    }
+            @*<input id="cart" class="btn btn-success" value="Add to cart"/>*@
+            <button id="cart" type="button" onclick ="addToCart()" class="btn btn-success">Add to cart</button>
+        </div>        
+    </form>
+    
     <span class="lead">@Model.Description</span>
 </div>
+
+<script>
+
+    function addToCart() {
+        var productID = $("#ProductID").val();
+        console.log("ID: "+productID);
+        $.post("@Url.Action("AddToCart", "Cart")", {productId: productID}, function (send) {
+            updateCartDisplay(send);
+            console.log("Count: "+send);
+        });
+        
+        //console.log(product);
+        @*$.get("@Url.Action("AddToCart", "Cart")?productId=" + $("#ProductID").val(), function (data) {
+            console.log(data);
+        });
+            $.get("@Url.Action("GetCartCount", "Cart")",
+                function (data) { console.log(data); }
+                );
+
+            *@
+    }
+</script>

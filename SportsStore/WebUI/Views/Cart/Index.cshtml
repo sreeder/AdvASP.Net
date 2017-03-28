@@ -3,7 +3,7 @@
     ViewBag.Title = "Sports Store: Your Cart";
 }
 <style>
-    #cartTable td{vertical-align: middle;}
+     #cartTable td{vertical-align: middle;}
 </style>
 
 <h2>Your Cart</h2>
@@ -27,12 +27,12 @@
                 @((line.Quantity *line.Product.Price).ToString("c"))
             </td>
             <td>
-                @using (Html.BeginForm("RemoveFromCart", "Cart"))
-                {
+
+                <form action="/" method="post">
                     @Html.Hidden("ProductId", line.Product.ProductID)
-                    @Html.HiddenFor(x=>x.ReturnUrl)
-                    <input class="btn btn-sm btn-warning" type="submit" value="Remove" />
-                }
+                    @Html.HiddenFor(x => x.ReturnUrl)
+                    <button id="cart" type="button" onclick="removeFromCart()" class="btn btn-sm btn-warning">Remove</button>
+                </form>
             </td>
         </tr>
     }
@@ -54,4 +54,18 @@
     @Html.ActionLink("Checkout Now", "Checkout", null, new { @class = "btn btn-primary" })
 </div>
 
+
+
+<script>
+    $(document).ready(updateCartDisplay);
+    function removeFromCart() {
+        var productID = $("#ProductId").val();
+        console.log("ID: "+ productID);
+        $.post("@Url.Action("RemoveFromCart", "Cart")", {productId: productID}, function (send) {
+            updateCartDisplay(send);
+            console.log("Count: "+send);
+        });
+
+    }
+</script>
 

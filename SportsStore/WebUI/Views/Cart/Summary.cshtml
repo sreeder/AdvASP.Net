@@ -1,4 +1,76 @@
 ﻿@model Domain.Entities.Cart
+
+<style>
+#cart-container {
+  float: right;
+  position: relative;
+  color: white;
+  
+  
+}
+
+#itemCount {
+  position: absolute;
+  display: none;
+  top: -10px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: red;
+  color: white;
+  text-align: center;
+}
+
+i:hover {
+  cursor: pointer;
+}
+
+</style>
+
+<div class="navbar-right">
+    @Html.ActionLink("Checkout", "Index", "Cart",
+                       new { returnUrl = Request.Url.PathAndQuery },
+                    new { @class = "btn btn-default navbar-btn" })
+</div>
+
+<div class="navbar-text navbar-right">
+
+    <div id="cart-container">
+        <div id="cart">
+            <i class="glyphicon glyphicon-shopping-cart" aria-hidden="true"></i>
+            
+        </div>
+        <span id="itemCount"></span>
+    </div>
+</div>
+
+<script>
+    @*$(document).ready(
+        updateCartDisplay( 
+            $.get("@Url.Action("GetCartCount", "Cart")",
+                function (data) { data; }
+                );)
+    );*@
+    function updateCartDisplay(count) {
+        //itemCount++;
+        //itemCount = get item count
+        //var itemCount = @Model.Lines.Sum(x => x.Quantity);
+
+        var itemCount = count;
+        if (itemCount > 0) {
+            $('#itemCount').html(itemCount).css('display', 'block');
+        } else {
+            $('#itemCount').html(itemCount).css('display', 'none');
+        }
+    };
+    $(document).ready(updateCartDisplay);
+
+
+</script>
+
+
+@*@model Domain.Entities.Cart
 <div class="navbar-right">
     @Html.ActionLink("Checkout", "Index", "Cart",
 new { returnUrl = Request.Url.PathAndQuery },
@@ -8,6 +80,6 @@ new { @class = "btn btn-default navbar-btn" })
     <b>Your cart:</b>
     @Model.Lines.Sum(x => x.Quantity) item(s),
     @Model.ComputeTotalValue().ToString("c")
-</div>
+</div>*@
 
 

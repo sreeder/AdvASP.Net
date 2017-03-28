@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -30,7 +31,18 @@ namespace WebUI.Controllers
             });
         }
 
-        public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
+        //public RedirectToRouteResult AddToCart(Cart cart, int productId, string returnUrl)
+        //{
+        //    Product product = repository.Products
+        //        .FirstOrDefault(p => p.ProductID == productId);
+        //    if (product != null)
+        //    {
+        //        //GetCart().AddItem(product, 1);
+        //        cart.AddItem(product, 1);
+        //    }
+        //    return RedirectToAction("Index", new {returnUrl});
+        //}
+        public JsonResult AddToCart(Cart cart, int productId)
         {
             Product product = repository.Products
                 .FirstOrDefault(p => p.ProductID == productId);
@@ -39,10 +51,21 @@ namespace WebUI.Controllers
                 //GetCart().AddItem(product, 1);
                 cart.AddItem(product, 1);
             }
-            return RedirectToAction("Index", new {returnUrl});
+            return Json(cart.GetTotalCount());
         }
+        //public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)
+        //{
+        //    Product product = repository.Products
+        //         .FirstOrDefault(p => p.ProductID == productId);
+        //    if (product != null)
+        //    {
+        //        //GetCart().RemoveLine(product);
+        //        cart.RemoveLine(product);
+        //    }
+        //    return RedirectToAction("Index", new { returnUrl });
+        //}
 
-        public RedirectToRouteResult RemoveFromCart(Cart cart, int productId, string returnUrl)
+        public JsonResult RemoveFromCart(Cart cart, int productId)
         {
             Product product = repository.Products
                  .FirstOrDefault(p => p.ProductID == productId);
@@ -51,7 +74,7 @@ namespace WebUI.Controllers
                 //GetCart().RemoveLine(product);
                 cart.RemoveLine(product);
             }
-            return RedirectToAction("Index", new { returnUrl });
+            return Json(cart.GetTotalCount());
         }
 
         private Cart GetCart()
@@ -63,6 +86,12 @@ namespace WebUI.Controllers
                 Session["Cart"] = cart;
             }
             return cart;
+        }
+
+        private int GetCartCount()
+        {
+            Cart cart = GetCart();
+            return cart.Lines.Count();
         }
 
         public PartialViewResult Summary(Cart cart)

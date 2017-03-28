@@ -36,6 +36,10 @@ namespace Domain.Entities
             return lineCollection.Sum(e => e.Product.Price * e.Quantity);
         }
 
+        public int GetTotalCount()
+        {
+            return lineCollection.Sum(e => e.Quantity);
+        }
         public void Clear()
         {
             lineCollection.Clear();
