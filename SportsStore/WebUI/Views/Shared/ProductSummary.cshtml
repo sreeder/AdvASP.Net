@@ -19,31 +19,10 @@
             @Html.HiddenFor(x => x.ProductID)
             @Html.Hidden("returnUrl", Request.Url.PathAndQuery)
             @*<input id="cart" class="btn btn-success" value="Add to cart"/>*@
-            <button id="cart" type="button" onclick ="addToCart()" class="btn btn-success">Add to cart</button>
+            <button id="cart" type="button" onclick ="addToCart(@Model.ProductID.ToString())" class="btn btn-success">Add to cart</button>
         </div>        
     </form>
     
     <span class="lead">@Model.Description</span>
 </div>
 
-<script>
-
-    function addToCart() {
-        var productID = $("#ProductID").val();
-        console.log("ID: "+productID);
-        $.post("@Url.Action("AddToCart", "Cart")", {productId: productID}, function (send) {
-            updateCartDisplay(send);
-            console.log("Count: "+send);
-        });
-        
-        //console.log(product);
-        @*$.get("@Url.Action("AddToCart", "Cart")?productId=" + $("#ProductID").val(), function (data) {
-            console.log(data);
-        });
-            $.get("@Url.Action("GetCartCount", "Cart")",
-                function (data) { console.log(data); }
-                );
-
-            *@
-    }
-</script>

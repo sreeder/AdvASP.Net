@@ -47,15 +47,44 @@ i:hover {
 
 <script>
     @*$(document).ready(
-        updateCartDisplay( 
+        updateCartDisplay(
             $.get("@Url.Action("GetCartCount", "Cart")",
                 function (data) { data; }
                 );)
     );*@
+
+
+    function addToCart(id) {
+        var productID = $("#ProductID").val();
+        console.log("ID: " + productID);
+        console.log("sent id: " + id);
+        $.post("@Url.Action("AddToCart", "Cart")", {productId: id}, function (send) {
+            updateCartDisplay(send);
+            console.log("Count: "+send);
+        });
+
+
+    }
+
+    function removeFromCart(id) {
+        var productID = $("#ProductId").val();
+        console.log("ID: " + productID);
+        console.log("sent id: " + id);
+        $.post("@Url.Action("RemoveFromCart", "Cart")", {productId: id}, function (send) {
+            updateCartDisplay(send);
+            console.log("Count: "+send);
+        });
+        loadCartPartial();
+
+    }
+    function loadCartPartial()
+    {
+        $("#cartContainer").load("@Url.Action("CartSummary", "Cart")");
+    }
+
+
+
     function updateCartDisplay(count) {
-        //itemCount++;
-        //itemCount = get item count
-        //var itemCount = @Model.Lines.Sum(x => x.Quantity);
 
         var itemCount = count;
         if (itemCount > 0) {
@@ -64,7 +93,7 @@ i:hover {
             $('#itemCount').html(itemCount).css('display', 'none');
         }
     };
-    $(document).ready(updateCartDisplay);
+    $(document).ready(updateCartDisplay(@Model.GetTotalCount()));
 
 
 </script>

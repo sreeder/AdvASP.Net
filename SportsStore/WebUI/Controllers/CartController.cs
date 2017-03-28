@@ -88,17 +88,25 @@ namespace WebUI.Controllers
             return cart;
         }
 
-        private int GetCartCount()
+        private int GetCartCount(Cart cart)
         {
-            Cart cart = GetCart();
-            return cart.Lines.Count();
+            return cart.GetTotalCount();
         }
 
         public PartialViewResult Summary(Cart cart)
         {
             return PartialView(cart);
         }
-
+        public PartialViewResult CartSummary(Cart cart)
+        {
+    
+            return PartialView(new CartIndexViewModel
+            {
+                //Cart = GetCart(),
+                ReturnUrl = "",
+                Cart = cart
+            });
+        }
         public ViewResult Checkout()
         {
             return View(new ShippingDetails());
